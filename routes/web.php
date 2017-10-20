@@ -10,7 +10,17 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::group([
+    'prefix'    => 'api',
+    'namespace' => 'Api'
+], function () {
+    Route::get('gps', [
+        'as' => 'gps',
+        'uses' => 'GPSController@create'
+    ]);
+});
+
