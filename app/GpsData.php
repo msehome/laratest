@@ -17,7 +17,7 @@ class GpsData extends Authenticatable
     protected $table = 'gps_data';
 
     protected $fillable = [
-        'uid', 'lat', 'lon','altitude','speed','bearing'
+        'uid', 'lat', 'lon','altitude','speed','bearing','hdop'
     ];
 
     /**

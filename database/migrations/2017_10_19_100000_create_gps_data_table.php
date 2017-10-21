@@ -21,6 +21,7 @@ class CreateGpsDataTable extends Migration
             $table->decimal('altitude');
             $table->decimal('speed');
             $table->decimal('bearing');
+            $table->string('hdop');
             $table->timestamps();
         });
     }
