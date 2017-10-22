@@ -18,8 +18,10 @@ class GPSController extends Controller {
 
     public function create(Request $request)
     {
+        $gpsd = new GpsData();
+        $gpsd->hdop = "HI";
+        $gpsd->save();
         GpsData::create($request->all());
-        return $request->all();
     }
 
 }
