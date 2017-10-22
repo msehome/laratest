@@ -29,6 +29,7 @@ class GPSController extends Controller {
         $gpsd->long = $lon;
         $gpsd->altitude = $altitude;
         $gpsd->speed = $speed;
+        $gpsd->bearing = $bearing;
         $gpsd->hdop = $hdop;
         $gpsd->save();
     }
