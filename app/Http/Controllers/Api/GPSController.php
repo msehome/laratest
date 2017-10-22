@@ -28,7 +28,7 @@ class GPSController extends Controller {
         $gpsd = new GpsData();
         $gpsd->uid = $uid;
         $gpsd->lat = $lat;
-        $gpsd->long = $lon;
+        $gpsd->lon = $lon;
         $gpsd->altitude = $altitude;
         $gpsd->speed = $speed;
         $gpsd->bearing = $bearing;
