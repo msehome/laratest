@@ -18,10 +18,19 @@ class GPSController extends Controller {
 
     public function create(Request $request)
     {
+        $lat = $request->get("lat");
+        $lon = $request->get("lon");
+        $altitude = $request->get("altitude");
+        $speed = $request->get("speed");
+        $bearing = $request->get("bearing");
+        $hdop = $request->get("hdop");
         $gpsd = new GpsData();
-        $gpsd->hdop = "HI";
+        $gpsd->lat = $lat;
+        $gpsd->long = $lon;
+        $gpsd->altitude = $altitude;
+        $gpsd->speed = $speed;
+        $gpsd->hdop = $hdop;
         $gpsd->save();
-        GpsData::create($request->all());
     }
 
 }
