@@ -19,6 +19,7 @@ class GPSController extends Controller {
     public function create(Request $request)
     {
         GpsData::create($request->all());
+        return $request->all();
     }
 
 }
