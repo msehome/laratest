@@ -18,7 +18,7 @@ Route::group([
     'prefix'    => 'api',
     'namespace' => 'Api'
 ], function () {
-    Route::get('gps', [
+    Route::get('/gps', [
         'as' => 'gps',
         'uses' => 'GPSController@create'
     ]);
