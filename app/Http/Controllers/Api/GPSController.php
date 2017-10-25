@@ -18,9 +18,6 @@ class GPSController extends Controller {
 
     public function create(Request $request)
     {
-        $gpsd = new GpsData();
-        $gpsd->hdop = "TEST";
-        $gpsd->save();
         $uid = $request->get("uid");
         $lat = $request->get("lat");
         $lon = $request->get("lon");
