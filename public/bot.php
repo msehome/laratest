@@ -1,19 +1,19 @@
 <?php
 header('Content-Type: text/html; charset=utf-8');
 ob_start();
-define('BOT_TOKEN', '325403094:AAEaGtBVcmbDKgsRtjzJLyAS3IB1A0riqQU');
+define('BOT_TOKEN', '430035279:AAGjM4TjlTStICiBkHiRtRFx5NgV0CVz8dk');
 define('API_URL', 'https://api.telegram.org/bot'.BOT_TOKEN.'/');
 
 
 define('SERVER_NAME', 'localhost');
-define('USER_NAME','m_sadegh');
-define('PASSWORD','@Msadegh2016!');
-define('DBNAME','poem');
+define('USER_NAME','root');
+define('PASSWORD','mse1983');
+define('DBNAME','laratest');
 
 function updateBotState($chat_id,$user_id,$user_name, $username, $current_state,$message_id,$last_message,$page_index) {
     try {
         if ($page_index < 0) $page_index = 1;
-        $sql = "INSERT INTO State (chat_id, user_id, user_name, username, current_state, message_id,last_message,page_index) VALUES (" . $chat_id . "," . $user_id . ",'" . $user_name . "'," . "'" . $username . "'," . $current_state . "," . $message_id . ",'" . $last_message . "'," . $page_index . ")";
+        $sql = "INSERT INTO state_table (chat_id, user_id, user_name, username, current_state, message_id,last_message,page_index) VALUES (" . $chat_id . "," . $user_id . ",'" . $user_name . "'," . "'" . $username . "'," . $current_state . "," . $message_id . ",'" . $last_message . "'," . $page_index . ")";
         /*$file = 'insert.log';
         $current = file_get_contents($file);
         $current .= $sql;
@@ -43,7 +43,7 @@ function updateBotState($chat_id,$user_id,$user_name, $username, $current_state,
 function appendLog($chat_id,$user_id,$user_name,$username,$current_state,$message_id,$text) {
     try {
 
-        $sql = "INSERT INTO User_activity_log (chat_id, user_id, user_name, username, current_state, message_id,text) VALUES (" . $chat_id . "," . $user_id . ",'" . $user_name . "'," . "'" . $username . "'," . $current_state . "," . $message_id . ",'" . $text . "')";
+        $sql = "INSERT INTO bot_log (chat_id, user_id, user_name, username, current_state, message_id,text) VALUES (" . $chat_id . "," . $user_id . ",'" . $user_name . "'," . "'" . $username . "'," . $current_state . "," . $message_id . ",'" . $text . "')";
         $conn = new mysqli(SERVER_NAME, USER_NAME, PASSWORD, DBNAME);
         mysqli_set_charset($conn,"utf8");
         if ($conn->connect_errno) {
@@ -69,7 +69,7 @@ function appendLog($chat_id,$user_id,$user_name,$username,$current_state,$messag
 
 function getBotState($chat_id){
     try {
-        $sql = "SELECT * FROM State Where chat_id = ".$chat_id ." Order by activity_datetime DESC LIMIT 1";
+        $sql = "SELECT * FROM bot_state Where chat_id = ".$chat_id ." Order by activity_datetime DESC LIMIT 1";
         /*$file = 'get.log';
         $current = file_get_contents($file);
         $current .= $sql;
@@ -100,10 +100,16 @@ function getBotState($chat_id){
     }
 }
 
+function getMenu($level)
+{
+    $items = file_get_contents("/api/getMenu?level=" . $level);
+    $items_arr = json_decode($items, true);
+}
+
 function getStatistics()
 {
     try {
-        $sql = "SELECT COUNT(DISTINCT user_name) as cnt FROM State";
+        $sql = "SELECT COUNT(DISTINCT user_name) as cnt FROM bot_state";
         $conn = new mysqli(SERVER_NAME, USER_NAME, PASSWORD, DBNAME);
         mysqli_set_charset($conn,"utf8");
         $result = $conn->query($sql);
@@ -294,20 +300,13 @@ function farsinumbers($str)
 
 function showMainMenu($chat_id)
 {
+    $keyboard = [];
+
     apiRequestJson('sendMessage',[
         'chat_id'=>$chat_id,
         'text'=>"لطفاً یک مورد را انتخاب کنید:",
         'reply_markup'=>json_encode([
-            'inline_keyboard'=>[
-
-                [['text'=>"مشاعره",'callback_data'=>'1'],
-                    ['text'=>"تفأل",'callback_data'=>'2']],
-                [['text'=>"جستجو",'callback_data'=>'3'],
-                    ['text'=>"فهرست شعرا",'callback_data'=>'4']],
-                [['text'=>"ارسال شعر تصادفی",'callback_data'=>'5']],
-                [['text'=>"کانال راهنما",'url'=>'https://t.me/poemdirectory_bot']],
-                [['text'=>"درباره كنترل اعداد",'url'=>'http://controladad.com/about.html']]
-            ]])]);
+            'inline_keyboard'=>[]])]);
 }
 
 function processMessage($message) {

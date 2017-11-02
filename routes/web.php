@@ -10,6 +10,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -20,7 +21,10 @@ Route::group([
 ], function () {
     Route::get('/gps', [
         'as' => 'gps',
-        'uses' => 'GPSController@create'
-    ]);
+        'uses' => 'GPSController@create']);
+
+    Route::get('/getMenu', [
+            'as' => 'menu',
+            'uses' => 'MenuController@index' ]);
 });
 
